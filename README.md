@@ -5,11 +5,15 @@ FancyStore is a high-performance, full-stack e-commerce solution built for luxur
 Image Optimization: Automated pipeline using Sharp to convert uploads to optimized JPGs, ensuring fast load times.
 Inventory Management: Real-time stock updates with a dedicated "Out of Stock" management system.
 Categorization: Seamlessly organize products into categories like Jewellery, Accessories, Craft & Works, and Steel Utensils.
+
+
 🛒 User Experience
 Live Search: Fast, client-side filtering and MongoDB $regex search to find products instantly.
 Secure Auth: Advanced email verification using DNS/MX record checks and Bcrypt password hashing.
 Premium Design: A responsive, mobile-first "Modern Luxury" theme (Gold & Midnight Palette).
 Payment Ready: Integrated flow for secure transaction processing (Razorpay/WhatsApp Checkout).
+
+
 🛠 Tech Stack
 Frontend: HTML5, CSS3, JavaScript (ES6+)
 Backend: Node.js, Express.js
