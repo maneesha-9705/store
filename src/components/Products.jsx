@@ -1,6 +1,6 @@
 import { useStore } from '../context/StoreContext';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 const Products = () => {
     const { products, addToCart, user } = useStore();
@@ -26,6 +26,12 @@ const Products = () => {
 
     const [searchInput, setSearchInput] = useState('');
     const [appliedSearch, setAppliedSearch] = useState('');
+
+    // Clear search when category changes
+    useEffect(() => {
+        setSearchInput('');
+        setAppliedSearch('');
+    }, [category]);
 
     const filteredProducts = useMemo(() => {
         return products.filter(product => {
@@ -102,52 +108,64 @@ const Products = () => {
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                 />
                             </div>
-                            <div style={{ padding: '1.5rem' }}>
-                                <h3 style={{ margin: '0 0 0.5rem' }}>{product.name}</h3>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                                    <span style={{ color: '#3b82f6', fontWeight: 'bold' }}>₹{product.cost}</span>
+                            <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                <h3 className="line-clamp-2" style={{ margin: '0 0 0.5rem', fontSize: '1.1rem', minHeight: '2.4em' }}>
+                                    {product.name}
+                                </h3>
+
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                    <span style={{ color: '#3b82f6', fontWeight: 'bold', fontSize: '1.25rem' }}>₹{product.cost}</span>
                                     <span style={{
                                         color: product.quantity > 0 ? '#10b981' : '#ef4444',
                                         fontWeight: '500',
+                                        fontSize: '0.85rem',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        gap: '0.5rem'
+                                        gap: '0.25rem',
+                                        background: product.quantity > 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                                        padding: '4px 8px',
+                                        borderRadius: '12px'
                                     }}>
                                         {product.quantity > 0 ? (
                                             <>
-                                                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }}></span>
-                                                In Stock: {product.quantity}
+                                                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></span>
+                                                {product.quantity} left
                                             </>
                                         ) : (
-                                            <>
-                                                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444' }}></span>
-                                                Out of Stock
-                                            </>
+                                            'Out of Stock'
                                         )}
                                     </span>
                                 </div>
 
-                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                <div className="product-actions" style={{ marginTop: 'auto' }}>
                                     <button
                                         onClick={() => addToCart(product)}
                                         className="btn-primary"
-                                        disabled={product.quantity <= 0}
-                                        style={{ flex: 1, fontSize: '0.9rem', opacity: product.quantity <= 0 ? 0.5 : 1 }}
+                                        disabled={product.quantity <= 0 || user?.isAdmin}
+                                        style={{
+                                            flex: 1,
+                                            fontSize: '0.9rem',
+                                            opacity: (product.quantity <= 0 || user?.isAdmin) ? 0.5 : 1,
+                                            cursor: user?.isAdmin ? 'not-allowed' : 'pointer',
+                                            padding: '10px'
+                                        }}
+                                        title={user?.isAdmin ? "Admins cannot shop" : ""}
                                     >
-                                        {product.quantity > 0 ? 'Add to Cart' : 'Sold Out'}
+                                        {user?.isAdmin ? 'Admin View' : (product.quantity > 0 ? 'Add to Cart' : 'Sold Out')}
                                     </button>
                                     <button
                                         onClick={() => handleBuyNow(product)}
-                                        disabled={product.quantity <= 0}
+                                        disabled={product.quantity <= 0 || user?.isAdmin}
                                         style={{
                                             flex: 1,
                                             border: '1px solid #60a5fa',
                                             background: 'transparent',
                                             color: '#60a5fa',
                                             borderRadius: '8px',
-                                            cursor: 'pointer',
+                                            cursor: user?.isAdmin ? 'not-allowed' : 'pointer',
                                             fontWeight: 600,
-                                            opacity: product.quantity <= 0 ? 0.5 : 1
+                                            opacity: (product.quantity <= 0 || user?.isAdmin) ? 0.5 : 1,
+                                            padding: '10px'
                                         }}
                                     >
                                         Buy Now

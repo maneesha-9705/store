@@ -7,6 +7,7 @@ import Cart from './components/Cart';
 import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
+import AdminCustomers from './components/AdminCustomers';
 import Checkout from './components/Checkout';
 import Payment from './components/Payment';
 import { StoreProvider, useStore } from './context/StoreContext';
@@ -48,6 +49,14 @@ const MainLayout = () => {
             element={
               <ProtectedRoute>
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/customers"
+            element={
+              <ProtectedRoute>
+                <AdminCustomers />
               </ProtectedRoute>
             }
           />

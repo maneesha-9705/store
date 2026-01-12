@@ -174,6 +174,31 @@ export const StoreProvider = ({ children }) => {
         }
     };
 
+    const updateCartQuantity = async (productId, quantity) => {
+        const token = getToken();
+        if (!token) return;
+
+        try {
+            const res = await fetch(`/api/cart/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ quantity })
+            });
+
+            if (res.ok) {
+                await fetchCart();
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Failed to update quantity');
+            }
+        } catch (error) {
+            console.error('Update cart quantity error:', error);
+        }
+    };
+
     const checkout = async () => {
         const token = getToken();
         if (!token) return { success: false, error: 'Not logged in' };
@@ -263,6 +288,7 @@ export const StoreProvider = ({ children }) => {
             deleteProduct,
             addToCart,
             removeFromCart,
+            updateCartQuantity,
             checkout,
             loginUser,
             registerUser,

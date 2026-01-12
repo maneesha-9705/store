@@ -9,7 +9,7 @@ const Footer = () => {
             textAlign: 'center',
             color: 'var(--text-muted)'
         }}>
-            <p>&copy; {new Date().getFullYear()} Fancy Store. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Lucky Ladies Corner. All rights reserved.</p>
         </footer>
     );
 };

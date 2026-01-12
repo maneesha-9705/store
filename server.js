@@ -351,6 +351,46 @@ app.post('/cart', authenticateToken, async (req, res) => {
     }
 });
 
+// Update Cart Item Quantity
+app.put('/cart/:productId', authenticateToken, async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const { quantity } = req.body;
+        const userId = req.user.userId;
+
+        if (req.user.userId === 'admin-static-id') {
+            return res.status(400).json({ error: 'Admin cannot modify cart' });
+        }
+
+        if (!quantity || quantity < 1) {
+            return res.status(400).json({ error: 'Quantity must be at least 1' });
+        }
+
+        // Check product stock
+        const product = await Product.findById(productId);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        if (product.quantity < quantity) {
+            return res.status(400).json({ error: `Only ${product.quantity} items available in stock` });
+        }
+
+        const cart = await Cart.findOne({ userId });
+        if (!cart) return res.status(404).json({ error: 'Cart not found' });
+
+        const itemIndex = cart.products.findIndex(p => p.productId.toString() === productId);
+        if (itemIndex === -1) {
+            return res.status(404).json({ error: 'Item not in cart' });
+        }
+
+        cart.products[itemIndex].quantity = quantity;
+        await cart.save();
+
+        res.json({ message: 'Cart updated successfully' });
+    } catch (error) {
+        console.error('Update Cart Error', error);
+        res.status(500).json({ error: 'Failed to update cart' });
+    }
+});
+
 // Remove from Cart
 app.delete('/cart/:productId', authenticateToken, async (req, res) => {
     try {
@@ -483,6 +523,20 @@ app.post('/verify-payment', authenticateToken, async (req, res) => {
     } catch (error) {
         console.error('Payment verification failed:', error);
         res.status(500).json({ error: 'Verification failed' });
+    }
+});
+
+// Admin: Get All Orders (Customers & Delivery Details)
+app.get('/orders', authenticateToken, async (req, res) => {
+    if (!req.user.isAdmin) return res.sendStatus(403);
+    try {
+        const orders = await Order.find()
+            .populate('products.productId')
+            .sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (error) {
+        console.error('Fetch orders error:', error);
+        res.status(500).json({ error: 'Failed to fetch orders' });
     }
 });
 

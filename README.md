@@ -1,4 +1,4 @@
-# Fancy Store 🛍️
+# Lucky Ladies Corner 🛍️
 
 A full-stack e-commerce web application for selling fancy items including jewellery, accessories, art and craft works, and steel utensils. Features a complete admin dashboard for product management and integrated Razorpay payment gateway.
 

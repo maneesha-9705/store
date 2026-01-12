@@ -18,7 +18,7 @@ const Navbar = () => {
         }}>
             <div className="nav-container" style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Link to="/" style={{ textDecoration: 'none', fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(to right, #60a5fa, #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                    FancyStore
+                    Lucky Ladies Corner
                 </Link>
 
                 <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -42,7 +42,12 @@ const Navbar = () => {
 
                     {user ? (
                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginLeft: '1rem' }}>
-                            {user.isAdmin && <Link to="/admin/dashboard" className="nav-link" style={{ color: '#e2e8f0' }}>Dashboard</Link>}
+                            {user.isAdmin && (
+                                <>
+                                    <Link to="/admin/dashboard" className="nav-link" style={{ color: '#e2e8f0' }}>Dashboard</Link>
+                                    <Link to="/customers" className="nav-link" style={{ color: '#e2e8f0' }}>Customers</Link>
+                                </>
+                            )}
                             <span style={{ fontSize: '0.9rem', color: '#cbd5e1' }}>Hi, {user.email?.split('@')[0] || 'User'}</span>
                             <button
                                 onClick={() => { logoutUser(); navigate('/'); }}

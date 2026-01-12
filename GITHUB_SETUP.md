@@ -8,9 +8,9 @@
 
 ### 1. Create a New Repository on GitHub
 1. Go to https://github.com/new
-2. Repository name: `fancy-store` (or any name you prefer)
+2. Repository name: `store` (or any name you prefer)
 3. Description: "E-commerce store for fancy items with admin dashboard"
-4. Choose **Public** or **Private**
+4. Choose **Public**
 5. **DO NOT** initialize with README, .gitignore, or license (we already have these)
 6. Click "Create repository"
 

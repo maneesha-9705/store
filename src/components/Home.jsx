@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 const Home = () => {
     return (
         <div style={{ padding: '4rem 2rem', textAlign: 'center' }}>
-            <h1 style={{ fontSize: '4rem', marginBottom: '1rem', background: 'linear-gradient(to right, #3b82f6, #8b5cf6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Welcome to Fancy Store
+            <h1 className="text-gradient" style={{ fontSize: '3.5rem', marginBottom: '1rem', fontWeight: '800' }}>
+                Welcome to Lucky Ladies Corner
             </h1>
             <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 3rem' }}>
                 Discover our exclusive collection of premium items. Curated for quality, designed for style.

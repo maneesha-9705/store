@@ -52,7 +52,7 @@ const Payment = () => {
                 key: orderData.key_id,
                 amount: orderData.amount,
                 currency: orderData.currency,
-                name: "Fancy Store",
+                name: "Lucky Ladies Fancy Store",
                 description: "Purchase Transaction",
                 order_id: orderData.id,
                 handler: async function (response) {
